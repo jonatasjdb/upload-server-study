@@ -1,0 +1,35 @@
+import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+import z from "zod";
+import { uploadImage } from "@/app/functions/upload-image";
+
+export const uploadImageRoute: FastifyPluginAsyncZod = async (server) => {
+	server.post(
+		"/uploads",
+		{
+			schema: {
+				summary: "Upload an Image",
+				tags: ["Uploads"],
+				consumes: ["multipart/form-data"],
+				response: {
+					201: z.null().describe("Image Uploaded"),
+					400: z.object({ message: z.string() }),
+				},
+			},
+		},
+		async (request, reply) => {
+			const uploadedFile = await request.file();
+
+			if (!uploadedFile) {
+				return reply.status(400).send({ message: "File is necessary" });
+			}
+
+			await uploadImage({
+				fileName: uploadedFile.filename,
+				contentType: uploadedFile.mimetype,
+				contentStream: uploadedFile.file,
+			});
+
+			return reply.status(201).send();
+		},
+	);
+};

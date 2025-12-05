@@ -1,0 +1,47 @@
+{
+	"name": "upload-server-study",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "tsx watch --env-file .env src/infra/http/server.ts",
+		"orm:generate": "npx drizzle-kit generate",
+		"orm:migrate": "npx drizzle-kit migrate",
+		"orm:migrate:test": "dotenv -e .env.test -- drizzle-kit migrate",
+		"test": "dotenv -e .env.test -- vitest run",
+		"test:watch": "dotenv -e .env.test -- vitest",
+		"pretest": "pnpm run orm:migrate:test",
+		"pretest:watch": "pnpm run orm:migrate:test",
+		"build": "tsup-node"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.20.0",
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.8",
+		"@types/node": "^24.10.1",
+		"dotenv-cli": "^11.0.0",
+		"drizzle-kit": "^0.31.8",
+		"tsup": "^8.5.1",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3",
+		"vite-tsconfig-paths": "^5.1.4",
+		"vitest": "^4.0.15"
+	},
+	"dependencies": {
+		"@aws-sdk/client-s3": "^3.943.0",
+		"@aws-sdk/lib-storage": "^3.943.0",
+		"@fastify/cors": "^11.1.0",
+		"@fastify/error": "^4.2.0",
+		"@fastify/multipart": "^9.3.0",
+		"@fastify/swagger": "^9.6.1",
+		"@fastify/swagger-ui": "^5.2.3",
+		"drizzle-orm": "^0.45.0",
+		"fastify": "^5.6.2",
+		"fastify-type-provider-zod": "^6.1.0",
+		"postgres": "^3.4.7",
+		"uuidv7": "^1.1.0",
+		"zod": "^4.1.13"
+	}
+}
